@@ -33,7 +33,7 @@ class HourAdapter(private val all: ArrayList<String>, val fragment: Fragment): R
             val editor = sp?.edit()
             editor?.putString("hour" , temp)
             editor?.apply()
-
+            holder.hour.setOnClickListener { holder.hour.setBackgroundColor(fragment.resources.getColor(R.color.purple_500)) }
         }
     }
 
