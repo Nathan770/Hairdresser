@@ -36,19 +36,18 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
 
-
-        val app: App = MyApp.Constants.app
-
 /*
-create account
 
-        app.emailPassword.registerUserAsync("nanathanamiel5@gmail.com", "Nathan770",App.Callback {
+        create account
+       app.emailPassword.registerUserAsync("nanathanamiel5@gmail.com", "Nathan770",App.Callback {
             result ->
             Log.d("nathan", "onCreate: " + result.error)
             Log.d("nathan", "onCreate: " + result.isSuccess)
 
         })
- */
+
+
+
         //login
         val cred: Credentials = Credentials.emailPassword("nanathanamiel5@gmail.com", "Nathan770")
 
@@ -63,7 +62,7 @@ create account
             mongoCollection = mongoDatabase.getCollection("schedule")!!
 
 
-            /*
+
             //putData
             mongoCollection.insertOne(
                 Document("post_id", 1)
@@ -78,7 +77,7 @@ create account
                     Log.d("nathan", "onCreate sec: " + r.isSuccess)
                 }
                 )
-        */
+
 
           //getData
             Thread{
@@ -91,5 +90,9 @@ create account
             }.start()
 
         }
+
+
+ */
+
     }
 }

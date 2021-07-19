@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/grey"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragment.BlankFragment">
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center">
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -53,33 +58,37 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/login_BTN_login"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/start_BTN_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Login"
-            app:cornerRadius="15dp" />
+            app:cornerRadius="15dp"
+            android:layout_marginTop="10dp"
+            android:text="login"/>
+
         <TextView
-            android:id="@+id/login_LBL_skip"
+            android:id="@+id/start_LBL_pass"
             android:layout_width="match_parent"
-            android:layout_marginTop="5dp"
-            android:textSize="20sp"
-            android:layout_height="match_parent"
-            android:clickable="true"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="Continue with out account" />
-
-
+            android:clickable="true"
+            android:text="Continue without sign"/>
 
     </LinearLayout>
 
     <TextView
-        android:id="@+id/login_LBL_create"
+        android:id="@+id/start_LBL_register"
         android:layout_width="match_parent"
-        android:textSize="20sp"
-        android:layout_height="match_parent"
-        android:clickable="true"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_marginTop="10dp"
         android:gravity="center|bottom"
-        android:text="Create account" />
+        android:clickable="true"
+        android:layout_gravity="center|bottom"
+        android:text="Create account"/>
+
+
 
 </FrameLayout>

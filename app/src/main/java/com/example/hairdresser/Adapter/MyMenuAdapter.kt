@@ -32,7 +32,7 @@ class MyMenuAdapter(private val all: ArrayList<MyMenu>, val fragment: Fragment) 
         fragment.view?.let { Glide.with(it).load(temp.photo).into(holder.photo) }
 
         holder.card.setOnClickListener {
-            //NavHostFragment.findNavController(fragment).navigate(R.id.action_main_fragment_to_schedule_fragment)
+            NavHostFragment.findNavController(fragment).navigate(R.id.action_main_fragment_to_schedule_fragment)
             val sp = fragment.context?.getSharedPreferences("MyService", Context.MODE_PRIVATE)
             val editor = sp?.edit()
             editor?.putString("prestation" , temp.prestation)

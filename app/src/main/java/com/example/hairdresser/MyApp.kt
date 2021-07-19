@@ -2,6 +2,7 @@ package com.example.hairdresser
 
 import android.app.Application
 import android.util.Log
+import com.example.hairdresser.Object.MyUser
 import io.realm.Realm
 import io.realm.mongodb.App
 import io.realm.mongodb.AppConfiguration
@@ -17,6 +18,12 @@ class MyApp : Application() {
                     Log.e(Constants.TAG, "Sync error: ${error.errorMessage}")
                 }
                 .build())
+
+
+    }
+
+    object Variable{
+        var mUser : MyUser = MyUser("" , "" ,"" ,"")
     }
     override fun onCreate() {
         super.onCreate()
@@ -24,13 +31,5 @@ class MyApp : Application() {
         val appID: String =
             "hairdresser-app-nlxzy" // replace this with your App ID "\"${gamenet-xopej}\""
         val app: App = App(AppConfiguration.Builder(appID).build())
-
-        val cred: Credentials = Credentials.emailPassword("nanathanamiel5@gmail.com", "Nathan770")
-
-        app.loginAsync(cred) { result ->
-            Log.d("nathan", "onCreate fir: " + result.error)
-            Log.d("nathan", "onCreate fir: " + result.isSuccess)
-
-        }
     }
 }

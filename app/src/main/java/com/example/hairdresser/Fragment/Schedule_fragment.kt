@@ -7,15 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.hairdresser.Adapter.HourAdapter
-import com.example.hairdresser.Adapter.MyMenuAdapter
 import com.example.hairdresser.MyApp
+import com.example.hairdresser.Object.MyUser
 import com.example.hairdresser.R
 import com.google.android.material.button.MaterialButton
 import io.realm.mongodb.App
@@ -54,59 +53,59 @@ class Schedule_fragment : Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_schedule, container, false)
 
         findViews(view)
-        getData()
-
+        getDataFromPresdent()
         var hourList : ArrayList<String> = getHourData()
         addAdapeter(hourList)
+
+
         scheduel_SPN_hairdresser.onItemSelectedListener  = object : AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                getHourData()
-            }
-
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) { getHourData() }
         }
 
-        schedule_BTN_ok.setOnClickListener(clickListener)
-        schedule_date.minDate = Calendar.getInstance().time.time
+        schedule_BTN_ok.setOnClickListener {
+            scheduleValidation()
+        }
+
         return view
     }
 
-    val clickListener = View.OnClickListener {view ->
 
-        when (view.getId()) {
-            R.id.schedule_BTN_ok -> checkClick()
-        }
-    }
-
-    private fun checkClick(){
+    private fun scheduleValidation(){
         val hour = sp?.getString("hour" , "no")
         if (hour.equals("no")){
             Toast.makeText(this.requireContext(), "Please Select hour", Toast.LENGTH_SHORT).show()
         }else{
-           val selectedDate =  schedule_date.dayOfMonth.toString() + "/"+schedule_date.month +"/"+schedule_date.year
-            val coiffeurName = scheduel_SPN_hairdresser.selectedItem.toString()
-            mongoCollection.insertOne(
-                Document("post_id", "1" )
-                    .append("Name", "nathan")
-                    .append("Phone", "0543957047")
-                    .append("Date", selectedDate)
-                    .append("Hour", hour)
-                    .append("Prestation" , prestation)
-                    .append("hairdresssername",coiffeurName )
-            )
-                .getAsync({ r ->
-                    Log.d("nathan", "onCreate sec: " + r.error)
-                    if (r.isSuccess){
+            postToDb(hour)
+        }
+    }
+
+    private fun postToDb(hour: String?) {
+
+        mongoCollection.insertOne(
+            Document("post_id", "1" )
+                .append("Name", MyApp.Variable.mUser.name)
+                .append("Phone", MyApp.Variable.mUser.phone)
+                .append("Date", schedule_date.dayOfMonth.toString() + "/"+schedule_date.month +"/"+schedule_date.year)
+                .append("Hour", hour)
+                .append("Prestation" , prestation)
+                .append("hairdresssername",scheduel_SPN_hairdresser.selectedItem.toString() )
+        )
+            .getAsync({ r ->
+                if (r.isSuccess){
+                    requireActivity().runOnUiThread {
                         Toast.makeText(this.requireContext(), "Succefully", Toast.LENGTH_SHORT).show()
                     }
-                    Log.d("nathan", "onCreate sec: " + r.isSuccess)
-                }
-                )
+                }else{
+                    requireActivity().runOnUiThread {
+                        Toast.makeText(this.requireContext(),"Data base:" + r.error, Toast.LENGTH_SHORT).show()
+                    }
+                    Log.d("nathan", "onCreate Schedule to data base:" + r.error)
 
-        }
+                }
+                Log.d("nathan", "onCreate Schedule to data base:" + r.isSuccess)
+            }
+            )
     }
 
     private fun addAdapeter(hourList: ArrayList<String>) {
@@ -126,36 +125,37 @@ class Schedule_fragment : Fragment() {
         }
 
         Thread{
-            val itemsIterator = mongoCollection.find().iterator().get()
-            while (itemsIterator.hasNext()) {
-                val temp = itemsIterator.next().toJson()
-                val plainJson = JSONObject(temp)
-
-                val name =  plainJson.get("hairdresssername") as String
-                val coiffeurName = scheduel_SPN_hairdresser.selectedItem.toString()
-
-                val date =  plainJson.get("Date") as String
-                val scheduleDate : String = schedule_date.dayOfMonth.toString() + "/"+schedule_date.month +"/"+schedule_date.year
-
-                if (date == scheduleDate) {
-                    if (coiffeurName == name) {
-                        val hour = plainJson.get("Hour") as String
-                        hourList.remove(hour)
-                    }
-                }
-            }
+            checkAvaliable(hourList)
             requireActivity().runOnUiThread {
                 addAdapeter(hourList)
             }
         }.start()
-
-
         return hourList
     }
 
+    private fun checkAvaliable(hourList: ArrayList<String>) {
+        val itemsIterator = mongoCollection.find().iterator().get()
+        while (itemsIterator.hasNext()) {
+            val temp = itemsIterator.next().toJson()
+            val plainJson = JSONObject(temp)
+
+            val name =  plainJson.get("hairdresssername") as String
+            val coiffeurName = scheduel_SPN_hairdresser.selectedItem.toString()
+
+            val date =  plainJson.get("Date") as String
+            val scheduleDate : String = schedule_date.dayOfMonth.toString() + "/"+schedule_date.month +"/"+schedule_date.year
+
+            if (date == scheduleDate) {
+                if (coiffeurName == name) {
+                    val hour = plainJson.get("Hour") as String
+                    hourList.remove(hour)
+                }
+            }
+        }
+    }
 
 
-    private fun getData() {
+    private fun getDataFromPresdent() {
         prestation = sp?.getString("prestation", "no data").toString()
         val time = sp?.getString("time", "no data")
         val price = sp?.getString("price", "no data")
@@ -182,6 +182,8 @@ class Schedule_fragment : Fragment() {
         scheduel_SPN_hairdresser = view.findViewById(R.id.scheduel_SPN_hairdresser)
         schedule_BTN_ok = view.findViewById(R.id.schedule_BTN_ok)
         scheduel_RCV_time = view.findViewById(R.id.scheduel_RCV_time)
+
+        schedule_date.minDate = Calendar.getInstance().time.time
     }
 
 }

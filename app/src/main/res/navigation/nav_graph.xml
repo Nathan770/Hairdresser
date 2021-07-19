@@ -2,6 +2,49 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph">
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/blankFragment">
 
+    <fragment
+        android:id="@+id/login_fragment"
+        android:name="com.example.hairdresser.Fragment.Login_fragment"
+        android:label="Login_fragment" >
+        <action
+            android:id="@+id/action_login_fragment_to_main_fragment"
+            app:destination="@id/main_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/main_fragment"
+        android:name="com.example.hairdresser.Fragment.Main_fragment"
+        android:label="Main_fragment" >
+        <action
+            android:id="@+id/action_main_fragment_to_schedule_fragment"
+            app:destination="@id/schedule_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/schedule_fragment"
+        android:name="com.example.hairdresser.Fragment.Schedule_fragment"
+        android:label="fragment_schedule"
+        tools:layout="@layout/fragment_schedule" />
+    <fragment
+        android:id="@+id/blankFragment"
+        android:name="com.example.hairdresser.Fragment.BlankFragment"
+        android:label="fragment_blank"
+        tools:layout="@layout/fragment_blank" >
+        <action
+            android:id="@+id/action_blankFragment_to_main_fragment"
+            app:destination="@id/main_fragment" />
+        <action
+            android:id="@+id/action_blankFragment_to_register_fragment2"
+            app:destination="@id/register_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/register_fragment"
+        android:name="com.example.hairdresser.Fragment.Register_fragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_register_fragment_to_blankFragment2"
+            app:destination="@id/blankFragment" />
+    </fragment>
 </navigation>
