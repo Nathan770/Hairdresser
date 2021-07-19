@@ -42,7 +42,7 @@ class Schedule_fragment : Fragment() {
     private lateinit var mongoCollection: MongoCollection<Document>
 
     private var prestation = ""
-
+    private lateinit var hourList : ArrayList<String>
     var sp = context?.getSharedPreferences("MyService", Context.MODE_PRIVATE)
     val app : App = MyApp.Constants.app
 
@@ -54,7 +54,7 @@ class Schedule_fragment : Fragment() {
 
         findViews(view)
         getDataFromPresdent()
-        var hourList : ArrayList<String> = getHourData()
+        hourList  = getHourData()
         addAdapeter(hourList)
 
 
@@ -95,7 +95,10 @@ class Schedule_fragment : Fragment() {
                 if (r.isSuccess){
                     requireActivity().runOnUiThread {
                         Toast.makeText(this.requireContext(), "Succefully", Toast.LENGTH_SHORT).show()
+                        hourList.remove(hour)
+                        addAdapeter(hourList)
                     }
+
                 }else{
                     requireActivity().runOnUiThread {
                         Toast.makeText(this.requireContext(),"Data base:" + r.error, Toast.LENGTH_SHORT).show()

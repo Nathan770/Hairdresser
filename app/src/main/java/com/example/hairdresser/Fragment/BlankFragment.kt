@@ -6,9 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.NavHostFragment
+import com.bumptech.glide.Glide
 import com.example.hairdresser.Activity.MainActivity
 import com.example.hairdresser.MyApp
 import com.example.hairdresser.Object.MyUser
@@ -28,6 +30,7 @@ private val TAG = "BlankFragment"
     private lateinit var start_BTN_login : MaterialButton
     private lateinit var start_LBL_pass : TextView
     private lateinit var start_LBL_register : TextView
+    private lateinit var start_IMG_top : ImageView
 
     private lateinit var mongoClient: MongoClient
     private lateinit var mongoDatabase: MongoDatabase
@@ -47,7 +50,6 @@ private val TAG = "BlankFragment"
             NavHostFragment.findNavController(this).navigate(R.id.action_blankFragment_to_main_fragment)
         }
         start_LBL_pass.setOnClickListener{
-            loadClient()
             Toast.makeText(this.requireContext(), "Please create Account it's take one minute", Toast.LENGTH_SHORT).show()
         }
         start_LBL_register.setOnClickListener{
@@ -95,6 +97,9 @@ private val TAG = "BlankFragment"
         start_BTN_login  = view.findViewById(R.id.start_BTN_login)
         start_LBL_pass  = view.findViewById(R.id.start_LBL_pass)
         start_LBL_register = view.findViewById(R.id.start_LBL_register)
+        start_IMG_top = view.findViewById(R.id.start_IMG_top)
+
+        Glide.with(view).load(R.drawable.loreal_icon).into(start_IMG_top)
     }
 
 

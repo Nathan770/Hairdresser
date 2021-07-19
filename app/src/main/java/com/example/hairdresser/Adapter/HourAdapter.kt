@@ -33,6 +33,7 @@ class HourAdapter(private val all: ArrayList<String>, val fragment: Fragment): R
             val editor = sp?.edit()
             editor?.putString("hour" , temp)
             editor?.apply()
+
         }
     }
 

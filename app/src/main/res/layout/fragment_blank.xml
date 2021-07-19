@@ -3,10 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment.BlankFragment">
 
+    <ImageView
+        android:id="@+id/start_IMG_top"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_gravity="top"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +28,9 @@
             app:boxCornerRadiusTopStart="15dp"
             app:boxCornerRadiusTopEnd="15dp"
             app:boxCornerRadiusBottomStart="15dp"
-
+            app:startIconTint="@color/purple_500"
+            android:textColorHint="@color/purple_500"
+            app:boxStrokeColor="@color/purple_500"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -48,6 +54,9 @@
             app:boxCornerRadiusTopEnd="15dp"
             app:boxCornerRadiusBottomStart="15dp"
             android:layout_marginTop="10dp"
+            app:startIconTint="@color/purple_500"
+            android:textColorHint="@color/purple_500"
+            app:boxStrokeColor="@color/purple_500"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
